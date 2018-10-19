@@ -89,12 +89,14 @@ void loop()
 	readButtonsAndUpdateDisplayOnChange();
 
 	// Look for new cards
-	if ( ! mfrc522.PICC_IsNewCardPresent()) {
+	if (!mfrc522.PICC_IsNewCardPresent())
+	{
 		return;
 	}
 
 	// Select one of the cards
-	if ( ! mfrc522.PICC_ReadCardSerial()) {
+	if (!mfrc522.PICC_ReadCardSerial())
+	{
 		return;
 	}
 
@@ -145,14 +147,22 @@ void analyzeReader()
 	tft_display.print(F("MFRC522 Software Version: 0x"));
 	tft_display.print(v, HEX);
 	if (v == 0x91)
+	{
 		tft_display.print(F(" = v1.0"));
+	}
 	else if (v == 0x92)
+	{
 		tft_display.print(F(" = v2.0"));
+	}
 	else
+	{
 		tft_display.print(F(" (unknown)"));
+	}
 	tft_display.println("");
+	
 	// When 0x00 or 0xFF is returned, communication probably failed
-	if ((v == 0x00) || (v == 0xFF)) {
+	if ((v == 0x00) || (v == 0xFF))
+	{
 		tft_display.println(F("WARNING: Communication failure, is the MFRC522 properly connected?"));
 	}
 }
@@ -380,11 +390,11 @@ void dumpToDisplay(MFRC522::Uid *uid)
 	tft_display.println(mfrc522.PICC_GetTypeName(piccType));
 
 	// Dump contents
-	switch (piccType) {
+	switch (piccType)
+	{
 		case MFRC522::PICC_TYPE_MIFARE_MINI:
 		case MFRC522::PICC_TYPE_MIFARE_1K:
 		case MFRC522::PICC_TYPE_MIFARE_4K:
-
 			PICC_DumpMifareClassicToDisplay(uid, piccType);
 			delay(2000);
 			displayStoredRfidInfos();
@@ -406,7 +416,6 @@ void dumpToDisplay(MFRC522::Uid *uid)
 			Serial.println("PICC_TYPE_TNP3XXX");
 			delay(2000);
 			show_error();
-			// Serial.println(F("Dumping memory contents not implemented for that PICC type."));
 			break;
 			
 		case MFRC522::PICC_TYPE_UNKNOWN:
